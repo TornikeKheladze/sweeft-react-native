@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import he from "he";
 import { QuestionComponentTypes } from "@/types/propTypes";
 import { useQuestionComponent } from "./useQuestionComponent";
@@ -14,20 +14,17 @@ const QuestionComponent: React.FC<QuestionComponentTypes> = ({
 
   return (
     <View key={question.question}>
-      <Text style={{ fontSize: 16, marginBottom: 10, fontWeight: "bold" }}>
-        {he.decode(question.question)}
-      </Text>
+      <Text style={styles.textContainer}>{he.decode(question.question)}</Text>
       {answers.map((option, index) => (
         <TouchableOpacity
           key={index}
           onPress={() => onPress(option)}
-          style={{
-            padding: 10,
-            backgroundColor: selectedOption === option ? "blue" : "gray",
-            marginBottom: 5,
-          }}
+          style={[
+            styles.touchableOpacity,
+            selectedOption === option ? styles.active : styles.inactive,
+          ]}
         >
-          <Text style={{ color: "white" }}>{he.decode(option)}</Text>
+          <Text style={styles.optionText}>{he.decode(option)}</Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -35,3 +32,19 @@ const QuestionComponent: React.FC<QuestionComponentTypes> = ({
 };
 
 export default QuestionComponent;
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  textContainer: { fontSize: 16, marginBottom: 10, fontWeight: "bold" },
+  touchableOpacity: {
+    padding: 10,
+    marginBottom: 5,
+  },
+  active: {
+    backgroundColor: "blue",
+  },
+  inactive: {
+    backgroundColor: "gray",
+  },
+  optionText: { color: "white" },
+});

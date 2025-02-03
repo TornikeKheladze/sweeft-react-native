@@ -18,5 +18,5 @@ export const getQuestions: (
   difficulty: Difficulty
 ) => Promise<Question[]> = (category, difficulty) =>
   axiosInstance
-    .get(`api.php?amount=20&category=${category}&difficulty=${difficulty}`)
+    .get(`api.php?amount=5&category=${category}&difficulty=${difficulty}`)
     .then((res) => res.data.results);

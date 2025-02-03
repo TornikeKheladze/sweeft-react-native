@@ -4,7 +4,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Button, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   const { push } = useRouter();
@@ -17,17 +17,17 @@ export default function Index() {
     queryFn: getCategories,
   });
 
-  const handleStartTest = () => {
+  const onStartPress = () => {
     push(`/questions/${selectedDifficulty}/${selectedCategory}`);
   };
 
   return (
-    <View>
-      <Text style={{ fontSize: 20 }}>Please Choose Category</Text>
+    <View style={styles.container}>
+      <Text>Please Choose Category</Text>
       <Picker
         selectedValue={selectedCategory}
         onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-        style={{ height: 30, width: 200 }}
+        style={styles.picker}
       >
         {categories?.map((category) => (
           <Picker.Item
@@ -37,19 +37,27 @@ export default function Index() {
           />
         ))}
       </Picker>
-      <Text style={{ fontSize: 20, marginTop: 20 }} className="text-red-700">
-        Please Choose Difficulty
-      </Text>
+      <Text>Please Choose Difficulty</Text>
       <Picker
         selectedValue={selectedDifficulty}
         onValueChange={(itemValue) => setSelectedDifficulty(itemValue)}
-        style={{ height: 30, width: 200, marginBottom: 20 }}
+        style={styles.picker}
       >
         {difficulties.map((item) => (
           <Picker.Item key={item} label={item} value={item} />
         ))}
       </Picker>
-      <Button title="Start Test" onPress={handleStartTest} color="blue" />
+      <Button title="Start Test" onPress={onStartPress} color="blue" />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    padding: 20,
+    gap: 10,
+  },
+  picker: { height: 30, width: "100%" },
+});
