@@ -25,6 +25,7 @@ export const useQuestionComponent = (
             ...prev[index],
             userAnswer: option,
             correctAnswer: question.correct_answer,
+            allAnswers: answers,
           },
           ...prev.slice(index + 1),
         ];
@@ -36,6 +37,7 @@ export const useQuestionComponent = (
             question: question.question,
             userAnswer: option,
             correctAnswer: question.correct_answer,
+            allAnswers: answers,
           },
         ];
       }

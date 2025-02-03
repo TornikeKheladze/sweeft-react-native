@@ -23,4 +23,5 @@ export type UserQuestion = {
   question: string;
   userAnswer: string;
   correctAnswer: string;
+  allAnswers: string[];
 };

@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 export default function Index() {
   const { push } = useRouter();
@@ -12,7 +13,7 @@ export default function Index() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy");
   const difficulties: Difficulty[] = ["easy", "medium", "hard"];
 
-  const { data: categories } = useQuery({
+  const { data: categories, isLoading } = useQuery({
     queryKey: ["getCategories"],
     queryFn: getCategories,
   });
@@ -23,6 +24,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
+      <LoadingSpinner isLoading={isLoading} />
       <Text>Please Choose Category</Text>
       <Picker
         selectedValue={selectedCategory}
