@@ -18,3 +18,9 @@ export type LocalSearchParams = {
   difficulty: Difficulty;
   category: string;
 };
+
+export type UserQuestion = {
+  question: string;
+  userAnswer: string;
+  correctAnswer: string;
+};
