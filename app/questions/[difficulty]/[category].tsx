@@ -67,7 +67,7 @@ export default function Questions() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  textContainer: { padding: 10, backgroundColor: "white" },
+  textContainer: { padding: 10, paddingTop: 20, backgroundColor: "white" },
   scrollView: {
     flex: 1,
     marginBottom: 20,
