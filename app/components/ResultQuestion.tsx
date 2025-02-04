@@ -1,10 +1,11 @@
 import { UserQuestion } from "@/types/common";
 import { StyleSheet, Text, View } from "react-native";
 import he from "he";
+import { AntDesign } from "@expo/vector-icons";
 
 const ResultQuestion: React.FC<{ question: UserQuestion }> = ({ question }) => {
   return (
-    <View key={question.question}>
+    <View key={question.question} style={styles.container}>
       <Text style={styles.textContainer}>{he.decode(question.question)}</Text>
       {question.allAnswers.map((option, index) => {
         const answered = option === question.userAnswer;
@@ -20,10 +21,15 @@ const ResultQuestion: React.FC<{ question: UserQuestion }> = ({ question }) => {
               correct && styles.correct,
             ]}
           >
-            <Text style={styles.optionText}>
-              {he.decode(option)} {correctlyAnswerred && <Text>✔</Text>}
-              {incorrectlyAnswerred && <Text>❌</Text>}
-            </Text>
+            <View style={styles.optionContainer}>
+              <Text style={styles.optionText}>{he.decode(option)}</Text>
+              {correctlyAnswerred && (
+                <AntDesign color={"white"} name="checkcircle" size={20} />
+              )}
+              {incorrectlyAnswerred && (
+                <AntDesign color={"red"} name="closecircle" size={20} />
+              )}
+            </View>
           </View>
         );
       })}
@@ -33,7 +39,7 @@ const ResultQuestion: React.FC<{ question: UserQuestion }> = ({ question }) => {
 export default ResultQuestion;
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { marginBottom: 20 },
   textContainer: { fontSize: 16, marginBottom: 10, fontWeight: "bold" },
   answersContainer: {
     padding: 10,
@@ -49,6 +55,14 @@ const styles = StyleSheet.create({
   correct: {
     backgroundColor: "green",
   },
-
-  optionText: { color: "white" },
+  optionText: {
+    color: "white",
+  },
+  optionContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    justifyContent: "space-between",
+  },
 });

@@ -1,47 +1,28 @@
-import { getCategories, getQuestions } from "@/api/axios";
 import QuestionComponent from "@/app/components/QuestionComponent";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
-import { LocalSearchParams, UserQuestion } from "@/types/common";
-import { useQuery } from "@tanstack/react-query";
-import { useLocalSearchParams, useRouter } from "expo-router/build/hooks";
-import { useState } from "react";
 import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
 import Modal from "react-native-modal";
 import ResultQuestion from "@/app/components/ResultQuestion";
+import { useQuestions } from "@/hooks/useQuestion";
 
 export default function Questions() {
-  const { difficulty, category } = useLocalSearchParams<LocalSearchParams>();
-  const { push } = useRouter();
-  const [userAnswers, setUserAnswers] = useState<UserQuestion[]>([]);
-  const [showResult, setShowResult] = useState<boolean>(false);
+  const {
+    setUserAnswers,
+    showResult,
+    userAnswers,
+    questions,
+    difficulty,
+    activeCategory,
+    onSubmitPres,
+    correctAnswers,
+    onTryAgainPress,
+    loading,
+  } = useQuestions();
 
-  const { data: categories, isLoading: categoriesLoading } = useQuery({
-    queryKey: ["getCategories"],
-    queryFn: getCategories,
-  });
-  const { data: questions, isLoading } = useQuery({
-    queryKey: ["getQuestions", difficulty, category],
-    queryFn: () => getQuestions(category, difficulty),
-  });
-  const activeCategory = categories?.find(
-    (cat) => cat.id.toString() === category
-  );
-  const onSubmitPres = () => {
-    setShowResult(true);
-  };
-  const correctAnswers = userAnswers.filter(
-    (item) => item.userAnswer === item.correctAnswer
-  ).length;
-
-  const onTryAgainPress = () => {
-    setUserAnswers([]);
-    setShowResult(false);
-    push("/");
-  };
+  if (loading) return <LoadingSpinner isLoading={loading} />;
 
   return (
     <View style={styles.container}>
-      <LoadingSpinner isLoading={isLoading || categoriesLoading} />
       <Modal
         isVisible={showResult}
         backdropOpacity={100}
@@ -49,7 +30,7 @@ export default function Questions() {
         animationOut="fadeOut"
       >
         <View>
-          <Text style={styles.textContainer}>
+          <Text style={styles.resultText}>
             Results: You have {correctAnswers} correct answers
           </Text>
         </View>
@@ -96,5 +77,12 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     backgroundColor: "white",
+  },
+  resultText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 10,
+    backgroundColor: "rgba(156, 163, 175)",
+    color: "blue",
   },
 });

@@ -1,7 +1,8 @@
+import { LoadingSpinnerProps } from "@/types/propTypes";
 import React from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 
-const LoadingSpinner: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ isLoading }) => {
   if (!isLoading) return null;
   return (
     <View style={[styles.blurContainer]}>

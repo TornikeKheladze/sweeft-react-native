@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import he from "he";
 import { QuestionComponentTypes } from "@/types/propTypes";
-import { useQuestionComponent } from "./useQuestionComponent";
+import { useQuestionComponent } from "@/hooks/useQuestionComponent";
 
 const QuestionComponent: React.FC<QuestionComponentTypes> = ({
   question,
@@ -13,7 +13,7 @@ const QuestionComponent: React.FC<QuestionComponentTypes> = ({
   );
 
   return (
-    <View key={question.question}>
+    <View key={question.question} style={styles.container}>
       <Text style={styles.textContainer}>{he.decode(question.question)}</Text>
       {answers.map((option, index) => (
         <TouchableOpacity
@@ -34,7 +34,7 @@ const QuestionComponent: React.FC<QuestionComponentTypes> = ({
 export default QuestionComponent;
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { marginBottom: 20 },
   textContainer: { fontSize: 16, marginBottom: 10, fontWeight: "bold" },
   touchableOpacity: {
     padding: 10,
